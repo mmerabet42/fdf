@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:36:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/01/30 23:54:54 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/01/31 19:25:01 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 # define K_4 21
 # define K_5 23
 # define K_6 22
-# define K_7 56
+# define K_7 26
 # define K_8 28
 # define K_9 25
 # define K_0 29
@@ -121,6 +121,33 @@
 # define K_PAD8 91
 # define K_PAD9 92
 
-char	ft_keyascii(int keycode);
+# define M_LEFT 1
+# define M_RIGHT 2
+# define M_WHEELUP 5
+# define M_WHEELDOWN 4
+# define M_WHEELLEFT 7
+# define M_WHEELRIGHT 6
+
+typedef struct	s_mlxdata
+{
+	void		*mlx_ptr;
+	void		*win;
+}				t_mlxdata;
+
+typedef struct	s_keypair
+{
+	int			keycode;
+	char		ascii;
+}				t_keypair;
+
+typedef struct	s_vec3
+{
+	int			x;
+	int			y;
+	int			z;
+}				t_vec3;
+
+char	ft_keyascii(int keycode, int maj);
+void	ft_drawline(t_vec3 a, t_vec3 b, int color);
 
 #endif
