@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/01 18:16:38 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/01 23:25:13 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,32 +45,37 @@ int	mouse_callback(int button, int x, int y, t_mlxdata *mlxdata)
 	return (0);
 }
 */
+
+typedef struct	s_lol
+{
+	long long	a;
+	long long	b;
+	long long	c;
+	long long	d;
+	long long	e;
+}				t_lol;
+
 int main()
 {
-/*	int	matrix[] = {
-		45, 12, 4, 1,
-		7, 45, 5, 8,
-		12, 11, 789, 3,
-		46, 23, 79, 6
-	};
-*/
-	t_mat	*mata = ft_mat_newn(4,
-		45, 12, 4, 1,
-		7, 45, 5, 8,
-		12, 11, 789, 3,
-		46, 23, 79, 6);
-	t_mat	*matb = ft_mat_newi(4, -1);
-	t_mat	res;
-	res.matrix = NULL;
-	ft_mat_add(*mata, *matb, &res);
+	printf("%#{cyan}%d");
+	return (0);
+	t_mat	*mata = ft_mat_newn(2, 3,
+			1, 2, 3,
+			4, 5, 6);
+	t_mat	*matb = ft_mat_newn(3, 2,
+			7, 8,
+			9, 10,
+			11, 12);
+	t_mat	*matc = ft_mat_mult(*mata, *matb, NULL);
 	ft_mat_dump(mata);
-	ft_printf(" +\n");
+	ft_printf("\n");
 	ft_mat_dump(matb);
-	ft_printf(" =\n");
-	ft_mat_dump(&res);
+	ft_printf("\n");
+	ft_mat_dump(matc);
 
 	ft_mat_del(&mata);
 	ft_mat_del(&matb);
+	ft_mat_del(&matc);
 	return (0);
 /*	t_mlxdata	mlxdata;
 
