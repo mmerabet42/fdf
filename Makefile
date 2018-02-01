@@ -6,7 +6,7 @@
 #    By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/11 18:07:15 by mmerabet          #+#    #+#              #
-#    Updated: 2018/01/31 17:07:24 by mmerabet         ###   ########.fr        #
+#    Updated: 2018/02/01 16:04:50 by mmerabet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT		=	$(LIBFTD)/libft.a
 MINILIBXD	=	minilibx
 MINILIBX	=	$(MINILIBXD)/libmlx.a
 
-_FDFS	=		main.c ft_keyascii.c \
+_FDFS	=		main.c ft_keyascii.c ft_drawline.c \
 
 SRCD		=	srcs/
 ICLD		=	-Iincludes -I$(LIBFTD)/includes -I$(MINILIBXD)

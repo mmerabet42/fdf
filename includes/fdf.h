@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:36:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/01/31 19:25:01 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/01 12:42:32 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@
 # define M_WHEELLEFT 7
 # define M_WHEELRIGHT 6
 
+# include "ft_math.h"
+
 typedef struct	s_mlxdata
 {
 	void		*mlx_ptr;
@@ -140,14 +142,9 @@ typedef struct	s_keypair
 	char		ascii;
 }				t_keypair;
 
-typedef struct	s_vec3
-{
-	int			x;
-	int			y;
-	int			z;
-}				t_vec3;
-
 char	ft_keyascii(int keycode, int maj);
-void	ft_drawline(t_vec3 a, t_vec3 b, int color);
+
+void	ft_drawline(t_mlxdata *mlxdata, t_vec2 a, t_vec2 b, int color);
+void	ft_drawline3(t_mlxdata *mlxdata, t_vec3 a, t_vec3 b, int color);
 
 #endif

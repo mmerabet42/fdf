@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/01/31 19:24:59 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/01 18:16:38 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "fdf.h"
 #include "mlx.h"
 #include <stdlib.h>
-
+/*
 void	ft_exit(const char *msg, int code)
 {
 	if (msg)
@@ -22,26 +22,57 @@ void	ft_exit(const char *msg, int code)
 	exit(code);
 }
 
-int	key_callback(int keycode, t_mlxdata *param)
+int	key_callback(int keycode, t_mlxdata *mlxdata)
 {
-	(void)param;
+	(void)mlxdata;
 	ft_printf("%d : %c\n", keycode, ft_keyascii(keycode, 1));
 	if (keycode == K_ESC)
 		ft_exit("Esc pressed !", 0);
 	return (0);
 }
 
-int	mouse_callback(int button, int x, int y, t_mlxdata *param)
+int	mouse_callback(int button, int x, int y, t_mlxdata *mlxdata)
 {
+	static t_vec2	old;
+	t_vec2			b;
+
+	b.x = x;
+	b.y = y;
 	ft_printf("%d %d %d\n", button, x, y);
-	mlx_pixel_put(param->mlx_ptr, param->win, x, y, 0xFFFFFF);
+	if (old.x != 0 && old.y != 0)
+		ft_drawline(mlxdata, old, b, 0xFFFFFF);
+	old = b;
 	return (0);
 }
-
+*/
 int main()
 {
-	ft_printf("%f\n", 7.0 / 4.0);
-	t_mlxdata	mlxdata;
+/*	int	matrix[] = {
+		45, 12, 4, 1,
+		7, 45, 5, 8,
+		12, 11, 789, 3,
+		46, 23, 79, 6
+	};
+*/
+	t_mat	*mata = ft_mat_newn(4,
+		45, 12, 4, 1,
+		7, 45, 5, 8,
+		12, 11, 789, 3,
+		46, 23, 79, 6);
+	t_mat	*matb = ft_mat_newi(4, -1);
+	t_mat	res;
+	res.matrix = NULL;
+	ft_mat_add(*mata, *matb, &res);
+	ft_mat_dump(mata);
+	ft_printf(" +\n");
+	ft_mat_dump(matb);
+	ft_printf(" =\n");
+	ft_mat_dump(&res);
+
+	ft_mat_del(&mata);
+	ft_mat_del(&matb);
+	return (0);
+/*	t_mlxdata	mlxdata;
 
 	if (!(mlxdata.mlx_ptr = mlx_init()))
 		ft_exit("MLX failed to init", 1);
@@ -51,5 +82,5 @@ int main()
 	mlx_mouse_hook(mlxdata.win, mouse_callback, &mlxdata);
 	mlx_loop(mlxdata.mlx_ptr);
 	mlx_destroy_window(mlxdata.mlx_ptr, mlxdata.win);
-	return (0);
+	return (0);*/
 }
