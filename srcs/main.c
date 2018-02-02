@@ -6,14 +6,14 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/01 23:25:13 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/02 19:15:44 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "fdf.h"
-#include "mlx.h"
-#include <stdlib.h>
+//#include "ft_printf.h"
+//#include "fdf.h"
+//#include "mlx.h"
+//#include <stdlib.h>
 /*
 void	ft_exit(const char *msg, int code)
 {
@@ -46,27 +46,29 @@ int	mouse_callback(int button, int x, int y, t_mlxdata *mlxdata)
 }
 */
 
-typedef struct	s_lol
+int		main(void)
 {
-	long long	a;
-	long long	b;
-	long long	c;
-	long long	d;
-	long long	e;
-}				t_lol;
-
-int main()
-{
-	printf("%#{cyan}%d");
 	return (0);
-	t_mat	*mata = ft_mat_newn(2, 3,
+}
+
+/*int main()
+{
+	t_vec	*veca = ft_vec_newn(3, 1, 1, 1);
+	t_vec	*vecb = ft_vec_newn(3, 1, 1, 1);
+//	ft_vec_multi(*vecb, 2, vecb);
+//	t_vec	*vecc = ft_vec_mult(*veca, *vecb, NULL);
+	ft_vec_dump(veca);
+	ft_vec_dump(vecb);
+//	ft_vec_dump(vecc);
+	ft_vec_del(&veca);
+	ft_vec_del(&vecb);
+//	ft_vec_del(&vecc);*/
+/*	t_mat	*mata = ft_mat_newn(3, 3,
 			1, 2, 3,
-			4, 5, 6);
-	t_mat	*matb = ft_mat_newn(3, 2,
-			7, 8,
-			9, 10,
-			11, 12);
-	t_mat	*matc = ft_mat_mult(*mata, *matb, NULL);
+			4, 5, 6,
+			7, 8, 9);
+	t_mat	*matb = ft_mat_newi(3, 3, 2);
+	t_mat	*matc = ft_mat_multi(*mata, 2, NULL);
 	ft_mat_dump(mata);
 	ft_printf("\n");
 	ft_mat_dump(matb);
@@ -77,7 +79,7 @@ int main()
 	ft_mat_del(&matb);
 	ft_mat_del(&matc);
 	return (0);
-/*	t_mlxdata	mlxdata;
+	t_mlxdata	mlxdata;
 
 	if (!(mlxdata.mlx_ptr = mlx_init()))
 		ft_exit("MLX failed to init", 1);
@@ -87,5 +89,5 @@ int main()
 	mlx_mouse_hook(mlxdata.win, mouse_callback, &mlxdata);
 	mlx_loop(mlxdata.mlx_ptr);
 	mlx_destroy_window(mlxdata.mlx_ptr, mlxdata.win);
-	return (0);*/
-}
+	return (0);
+}*/

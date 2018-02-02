@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:36:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/01 12:42:32 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/02 19:16:18 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,5 @@ typedef struct	s_keypair
 char	ft_keyascii(int keycode, int maj);
 
 void	ft_drawline(t_mlxdata *mlxdata, t_vec2 a, t_vec2 b, int color);
-void	ft_drawline3(t_mlxdata *mlxdata, t_vec3 a, t_vec3 b, int color);
 
 #endif

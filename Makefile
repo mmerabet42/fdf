@@ -6,7 +6,7 @@
 #    By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/11 18:07:15 by mmerabet          #+#    #+#              #
-#    Updated: 2018/02/01 18:44:37 by mmerabet         ###   ########.fr        #
+#    Updated: 2018/02/02 19:11:30 by mmerabet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ all: $(NAME)
 
 $(NAME): includes/fdf.h $(LIBFT) $(MINILIBX) $(OBJB)
 	@echo "$(_RED)Compiling$(_END) $(NAME)$(_RED)...$(_END)"
-	@$(CC) $(CFLAGS) $(LIBFT) $(MINILIBX) $(OBJB) $(FRAMEWORKS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(LIBFT) $(OBJB) $(MINILIBX) $(FRAMEWORKS) -o $(NAME)
 	@echo  "$(NAME) : $(_RED)done$(_END)"
 
 $(LIBFT):
@@ -67,6 +67,7 @@ $(OBJD)%.o: $(SRCD)%.c
 
 clean:
 	@make -C $(LIBFTD) clean
+	@make -C $(MINILIBXD) clean
 	@echo "$(NAME) clean: $(_RED)done$(_END)"
 	@/bin/rm -f $(OBJB)
 
