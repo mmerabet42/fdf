@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/03 16:59:43 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/03 22:43:30 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,57 +48,20 @@ int	mouse_callback(int button, int x, int y, t_mlxdata *mlxdata)
 
 int main()
 {
-/*	t_vec	*veca = ft_vec_newn(3, 1, 1, 1);
-	t_vec	*vecb = ft_vec_newn(3, 1, 1, 1);
-	ft_vec_addi(*veca, 5, veca);
-	ft_vec_addi(*vecb, 10, vecb);
-	t_vec	*vecc = ft_vec_mult(*veca, *vecb, NULL);
-	ft_vec_dump(veca);
-	ft_vec_dump(vecb);
-	ft_vec_dump(vecc);
-	ft_vec_del(&veca);
-	ft_vec_del(&vecb);
-	ft_vec_del(&vecc);
-	return (0);*/
-/*	t_vec	*veca = ft_vec_newn(3, 1, 2, 3);
-	t_vec	*vecb = ft_vec_newn(3, 2, 3, 4);
-	ft_vec_dump(veca);
-	ft_vec_dump(vecb);
-	ft_vec_add(*veca, *vecb, vecb);
-	ft_vec_dump(vecb);
-	ft_vec_del(&veca);
-	ft_vec_del(&vecb);*/
-	t_mat	*mata = ft_mat_newn(3, 3,
-			1, 2, 3,
-			4, 5, 6,
-			7, 8, 9);
-	t_mat	*matb = ft_mat_newi(3, 3, 2);
+	t_mat	*mata = ft_mat_newn(2, 3,
+			1, -1, 2,
+			0, -3, 1);
+	t_vec	*veca = ft_vec_newn(3, 2, 1, 0);
 	ft_mat_dump(mata);
-	ft_printf("\n");
-	ft_mat_dump(matb);
-	ft_mat_mult(*mata, *matb, matb);
-	ft_printf("\n");
-	ft_mat_dump(matb);
+	ft_printf("\n\n");
+	ft_vec_dump(veca);
+	ft_mat_multv(*mata, *veca, veca);
+	ft_printf("\n\n");
+	ft_vec_dump(veca);
 	ft_mat_del(&mata);
-	ft_mat_del(&matb);
+	ft_vec_del(&veca);
+//	ft_vec_del(&vecb);
 	return (0);
-/*	t_mat	*mata = ft_mat_newi(4, 4, 1);
-	ft_mat_addi(*mata, 5, mata);
-	t_mat	*matb = ft_mat_newn(4, 4,
-			1, 2, 3, 4,
-			5, 6, 7, 8,
-			9, 10, 11, 12,
-			13, 14, 15, 16);
-	ft_mat_dump(mata);
-	ft_printf("\n");
-	ft_mat_dump(matb);
-	ft_printf("\n");
-	ft_mat_mult(*mata, *matb, mata);
-	ft_mat_dump(mata);
-
-	ft_mat_del(&mata);
-	ft_mat_del(&matb);
-	return (0);*/
 /*	t_mlxdata	mlxdata;
 
 	if (!(mlxdata.mlx_ptr = mlx_init()))
