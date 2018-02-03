@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/02 23:13:09 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/03 16:59:43 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,29 @@ int main()
 	ft_vec_del(&vecb);
 	ft_vec_del(&vecc);
 	return (0);*/
-	t_mat	*mata = ft_mat_newi(4, 4, 1);
+/*	t_vec	*veca = ft_vec_newn(3, 1, 2, 3);
+	t_vec	*vecb = ft_vec_newn(3, 2, 3, 4);
+	ft_vec_dump(veca);
+	ft_vec_dump(vecb);
+	ft_vec_add(*veca, *vecb, vecb);
+	ft_vec_dump(vecb);
+	ft_vec_del(&veca);
+	ft_vec_del(&vecb);*/
+	t_mat	*mata = ft_mat_newn(3, 3,
+			1, 2, 3,
+			4, 5, 6,
+			7, 8, 9);
+	t_mat	*matb = ft_mat_newi(3, 3, 2);
+	ft_mat_dump(mata);
+	ft_printf("\n");
+	ft_mat_dump(matb);
+	ft_mat_mult(*mata, *matb, matb);
+	ft_printf("\n");
+	ft_mat_dump(matb);
+	ft_mat_del(&mata);
+	ft_mat_del(&matb);
+	return (0);
+/*	t_mat	*mata = ft_mat_newi(4, 4, 1);
 	ft_mat_addi(*mata, 5, mata);
 	t_mat	*matb = ft_mat_newn(4, 4,
 			1, 2, 3, 4,
@@ -76,7 +98,7 @@ int main()
 
 	ft_mat_del(&mata);
 	ft_mat_del(&matb);
-	return (0);
+	return (0);*/
 /*	t_mlxdata	mlxdata;
 
 	if (!(mlxdata.mlx_ptr = mlx_init()))
