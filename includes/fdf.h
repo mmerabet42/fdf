@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:36:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/02 19:16:18 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/04 22:34:06 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@
 
 typedef struct	s_mlxdata
 {
-	void		*mlx_ptr;
+	void		*ptr;
 	void		*win;
 }				t_mlxdata;
 
