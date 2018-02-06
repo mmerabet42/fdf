@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/06 14:30:05 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/06 21:46:25 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	key_callback(int keycode, t_mlxdata *mlxdata)
 
 int	mouse_callback(int button, int x, int y, t_mlxdata *mlxdata)
 {
-	void	*img;
+/*	void	*img;
 	char	*imgdata;
 	int		bits;
 	int		lsize;
@@ -47,13 +47,15 @@ int	mouse_callback(int button, int x, int y, t_mlxdata *mlxdata)
 	mlx_put_image_to_window(mlxdata->ptr, mlxdata->win, img, x, y);
 	mlx_destroy_image(mlxdata->ptr, img);
 	ft_printf("L: %d %d\n", bits, lsize);
-	return (0);
-	static t_vec2	old;
-	t_vec2			b;
+	return (0);*/
+	static t_vec3	old;
+	static int		scrolli;
+	t_vec3			b;
 
 	b.x = x;
 	b.y = y;
-	ft_printf("%d %d %d\n", button, x, y);
+	b.z = 2;
+	ft_printf("%d %d %d %d\n", button, x, y, scrolli);
 	if (old.x != 0 && old.y != 0)
 		ft_drawline(mlxdata, old, b, rand() % 0xFFFFFF);
 	old = b;
