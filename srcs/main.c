@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/04 22:34:04 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/06 14:30:05 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ int	mouse_callback(int button, int x, int y, t_mlxdata *mlxdata)
 
 	img = mlx_new_image(mlxdata->ptr, 10, 10);
 	imgdata = mlx_get_data_addr(mlxdata->ptr, &bits, &lsize, &endian);
+	imgdata[10] = (char)255;
+	imgdata[11] = (char)255;
+	imgdata[12] = (char)255;
+	mlx_put_image_to_window(mlxdata->ptr, mlxdata->win, img, x, y);
+	mlx_destroy_image(mlxdata->ptr, img);
 	ft_printf("L: %d %d\n", bits, lsize);
 	return (0);
 	static t_vec2	old;
