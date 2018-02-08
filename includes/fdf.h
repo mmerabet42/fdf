@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:36:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/07 23:09:25 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/08 21:42:36 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,22 @@ typedef struct	s_keypair
 	int			keycode;
 	char		ascii;
 }				t_keypair;
+
+typedef struct	s_point
+{
+	int			z;
+	int			color;
+}				t_point;
+
+typedef struct	s_model
+{
+	t_points	*points;
+	size_t		size;
+	size_t		width;
+	size_t		height;
+}				t_model;
+
+t_model	*ft_getmodel(const char *file_name);
 
 char	ft_keyascii(int keycode, int maj);
 

@@ -6,12 +6,12 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 19:10:31 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/07 23:09:21 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/08 18:50:14 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "ft_math.h"
+#include "ft_matrix.h"
 #include <math.h> 
 #include "ft_printf.h"
 #include "mlx.h"
@@ -45,8 +45,8 @@ void	ft_drawline(t_mlxdata *mlxdata, t_vec3 a, t_vec3 b, int color)
 	}
 }
 
-#define CTE1 0.6
-#define CTE2 0.6
+#define CTE1 0.3
+#define CTE2 0.3
 #define VIEW_TYPE 0
 
 t_vec3	ft_3dto2d(t_vec3 vec)
