@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 19:10:31 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/08 18:50:14 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/09 22:36:30 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,20 @@
 #include "ft_printf.h"
 #include "mlx.h"
 
-void	ft_drawline(t_mlxdata *mlxdata, t_vec3 a, t_vec3 b, int color)
+static t_vec3	ft_3dto2d(t_vec3 vec)
+{
+	static float	cte = 0.5;
+	t_vec3			res;
+
+	res.x = cte * vec.x - cte * vec.y;
+	res.y = vec.z + (cte / 2.0) * vec.x + (cte / 2.0) * vec.y;
+	/*res.x = vec.x + CTE1 * vec.z;
+	res.y = vec.y + (CTE1 / 2) * vec.z;*/
+	res.z = 0;
+	return (res);
+}
+
+void			ft_drawline(t_mlxdata *mlxdata, t_vec3 a, t_vec3 b, int color)
 {
 	t_vec3	d;
 	t_vec3	s;
@@ -26,12 +39,12 @@ void	ft_drawline(t_mlxdata *mlxdata, t_vec3 a, t_vec3 b, int color)
 	b = ft_3dto2d(b);
 	d.x = ft_fabs(b.x - a.x);
 	d.y = ft_fabs(b.y - a.y);
-	s.x = (a.x < b.x ? 1 : -1);
-	s.y = (a.y < b.y ? 1 : -1);
-	perr.x = (d.x > d.y ? d.x : -d.y) / 2;
+	s.x = (a.x < b.x ? 1.f : -1.f);
+	s.y = (a.y < b.y ? 1.f : -1.f);
+	perr.x = (d.x > d.y ? d.x : -d.y) / 2.f;
 	while (a.x != b.x || a.y != b.y)
 	{
-		mlx_pixel_put(mlxdata->ptr, mlxdata->win, a.x, a.y, color);
+		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x, (int)a.y, color);
 		if ((perr.y = perr.x) > -d.x)
 		{
 			perr.x -= d.y;
@@ -43,26 +56,4 @@ void	ft_drawline(t_mlxdata *mlxdata, t_vec3 a, t_vec3 b, int color)
 			a.y += s.y;
 		}
 	}
-}
-
-#define CTE1 0.3
-#define CTE2 0.3
-#define VIEW_TYPE 0
-
-t_vec3	ft_3dto2d(t_vec3 vec)
-{
-	t_vec3	res;
-
-	if (VIEW_TYPE == 0)
-	{
-		res.x = CTE1 * vec.x - CTE2 * vec.y;
-		res.y = vec.z + (CTE1 / 2.0) * vec.x + (CTE2 / 2.0) * vec.y;
-	}
-	else
-	{
-		res.x = vec.x + CTE1 * vec.z;
-		res.y = vec.y + (CTE1 / 2) * vec.z;
-	}
-	res.z = 0;
-	return (res);
 }
