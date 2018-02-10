@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 18:50:24 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/09 22:00:41 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/10 21:07:03 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ void			ft_printmodel(t_mlxdata *mlxdata, t_model *model)
 {
 	size_t	x;
 	size_t	y;
-	t_vec3	currp;
-	t_vec3	prevp;
+	t_vec3f	currp;
+	t_vec3f	prevp;
 	t_point	*p;
 
 	y = 0;
@@ -112,9 +112,9 @@ void			ft_printmodel(t_mlxdata *mlxdata, t_model *model)
 		while (x < model->width)
 		{
 			p = ft_getpoint(model, x, y);
-			currp.x = p->x * 50 + 1000;
-			currp.y = p->y * 50;
-			currp.z = p->z * -20;
+			currp.x = p->x;
+			currp.y = p->y;
+			currp.z = -p->z;
 			if (x != 0)
 				ft_drawline(mlxdata, prevp, currp, p->color);
 			prevp = currp;
@@ -131,9 +131,9 @@ void			ft_printmodel(t_mlxdata *mlxdata, t_model *model)
 		while (y < model->height)
 		{
 			p = ft_getpoint(model, x, y);
-			currp.x = p->x * 50 + 1000;
-			currp.y = p->y * 50;
-			currp.z = p->z * -20;
+			currp.x = p->x;
+			currp.y = p->y;
+			currp.z = -p->z;
 			if (y != 0)
 				ft_drawline(mlxdata, prevp, currp, p->color);
 			prevp = currp;

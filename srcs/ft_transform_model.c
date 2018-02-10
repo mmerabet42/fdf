@@ -6,11 +6,12 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/09 21:51:41 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/09 22:34:02 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/10 20:04:22 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "ft_printf.h"
 
 void	ft_transform_model(t_model *model, t_mat *transform)
 {
@@ -20,6 +21,8 @@ void	ft_transform_model(t_model *model, t_mat *transform)
 	t_point			*p;
 	t_vec3			i;
 
+	if (!model || !transform)
+		return ;
 	i.x = 0;
 	while (i.x < (int)model->width)
 	{

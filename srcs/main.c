@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/09 22:36:32 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/10 22:54:05 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	ft_exit(const char *msg, int code)
 
 void drawsqr(t_mlxdata *mlxdata, int x, int y, int z, int color, int width)
 {
-	t_vec3 pos = {x + 1500, y, z};
+	t_vec3f pos = {(float)x + 1500.f, (float)y, (float)z};
 
-	t_vec3 a1 = {-width + pos.x, -width + pos.y, 0 + pos.z};
-	t_vec3 a2 = {width + pos.x, -width + pos.y, 0 + pos.z};
-	t_vec3 a3 = {width + pos.x, width + pos.y, 0 + pos.z};
-	t_vec3 a4 = {-width + pos.x, width + pos.y, 0 + pos.z};
+	t_vec3f a1 = {(float)-width + pos.x, (float)-width + pos.y, 0.f + pos.z};
+	t_vec3f a2 = {(float)width + pos.x, (float)-width + pos.y, 0.f + pos.z};
+	t_vec3f a3 = {(float)width + pos.x, (float)width + pos.y, 0.f + pos.z};
+	t_vec3f a4 = {(float)-width + pos.x, (float)width + pos.y, 0.f + pos.z};
 	ft_drawline(mlxdata, a1, a2, color);
 	ft_drawline(mlxdata, a2, a3, color);
 	ft_drawline(mlxdata, a3, a4, color);
@@ -52,18 +52,18 @@ int	key_callback(int keycode, t_mlxdata *mlxdata)
 
 int	mouse_callback(int button, int x, int y, t_mlxdata *mlxdata)
 {
-	static t_vec3	old;
-	t_vec3			b;
+	static t_vec3f	old;
+	t_vec3f			b;
 
 	if (y < 0)
 		return (0);
 	(void)button;
 	mousex = x;
 	mousey = y;
-	b.x = x;
-	b.y = y;
-	b.z = 1;
-	if (old.x != 0 && old.y != 0)
+	b.x = (float)x;
+	b.y = (float)y;
+	b.z = 1.f;
+	if ((int)old.x != 0 && (int)old.y != 0)
 		ft_drawline(mlxdata, old, b, rand() % 0xffffff);
 	old = b;
 	return (0);
@@ -86,9 +86,9 @@ int main(int argc, char **argv)
 	{
 		if ((model = ft_getmodel(argv[1])))
 		{
-			t_vec *rot = ft_vec_newn(3, 0.f, 0.f * M_PI / 180.F, 0.f);
-			(void)rot;
-		//	ft_transform_model(model, ft_mat_rotate(*rot));
+			t_vec *translate = ft_vec_newn(3, 1500.f, 10.f, 0.f);
+			t_vec *scale = ft_vec_newn(3, 50.f, 50.f, 3.f);
+			ft_transform_model(model, ft_mat_mult(*ft_mat_translate(*translate), *ft_mat_scale(*scale), NULL));
 			ft_printmodel(&mlxdata, model);
 		}
 		else
