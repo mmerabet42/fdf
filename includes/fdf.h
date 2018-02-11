@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:36:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/10 22:54:07 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/11 22:09:00 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,14 +146,13 @@ typedef struct	s_keypair
 
 typedef struct	s_point
 {
-	float		x;
-	float		y;
-	float		z;
+	t_vec3f		pos;
 	int			color;
 }				t_point;
 
 typedef struct	s_model
 {
+	t_point		*orpoints;
 	t_point		*points;
 	size_t		width;
 	size_t		height;

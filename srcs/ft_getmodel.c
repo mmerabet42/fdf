@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 18:50:24 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/10 21:07:03 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/11 22:03:54 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,14 @@ static void	getheights(const t_list *words, t_point *points, size_t y)
 	{
 		if (words->content)
 		{
-			points[i].x = i;
-			points[i].y = y;
-			points[i].z = ft_atoi(words->content);
+			points[i].pos.x = i;
+			points[i].pos.y = y;
+			points[i].pos.z = ft_atod(words->content);
 			if ((f = ft_strstr(words->content, ",0x")))
 				points[i].color = ft_atoi_basec(f + 3, "0123456789abcdef");
 			else
 				points[i].color = 0xffffff;
+				points[i].color = rand() % 0xffffff;// (int)points[i].pos.z;
 			++i;
 		}
 		words = words->next;
@@ -100,45 +101,26 @@ void			ft_printmodel(t_mlxdata *mlxdata, t_model *model)
 {
 	size_t	x;
 	size_t	y;
-	t_vec3f	currp;
-	t_vec3f	prevp;
-	t_point	*p;
+	t_point	*pa;
+	t_point	*pb;
 
 	y = 0;
 	while (y < model->height)
 	{
-		ft_bzero(&prevp, sizeof(t_point));
 		x = 0;
 		while (x < model->width)
 		{
-			p = ft_getpoint(model, x, y);
-			currp.x = p->x;
-			currp.y = p->y;
-			currp.z = -p->z;
-			if (x != 0)
-				ft_drawline(mlxdata, prevp, currp, p->color);
-			prevp = currp;
+			pa = ft_getpoint(model, x, y);
+			if (x + 1 < model->width && (pb = ft_getpoint(model, x + 1, y)))
+				ft_drawline(mlxdata, ft_getpoint(model, x, y)->pos,
+						pb->pos, pa->color);
+			if (y + 1 < model->height && (pb = ft_getpoint(model, x, y + 1)))
+			{
+				ft_drawline(mlxdata, ft_getpoint(model, x, y)->pos,
+						pb->pos, pa->color);
+			}
 			++x;
 		}
 		++y;
-	}
-	
-	x = 0;
-	while (x < model->width)
-	{
-		ft_bzero(&prevp, sizeof(t_point));
-		y = 0;
-		while (y < model->height)
-		{
-			p = ft_getpoint(model, x, y);
-			currp.x = p->x;
-			currp.y = p->y;
-			currp.z = -p->z;
-			if (y != 0)
-				ft_drawline(mlxdata, prevp, currp, p->color);
-			prevp = currp;
-			++y;
-		}
-		++x;
 	}
 }

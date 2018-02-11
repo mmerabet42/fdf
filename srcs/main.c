@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/10 22:54:05 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/11 22:08:57 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 #include "fdf.h"
 #include "mlx.h"
 #include "ft_list.h"
+#include "ft_types.h"
 #include <stdlib.h>
+#include <time.h>
+#include <math.h>
 
 void	ft_exit(const char *msg, int code)
 {
@@ -23,30 +26,35 @@ void	ft_exit(const char *msg, int code)
 	exit(code);
 }
 
-void drawsqr(t_mlxdata *mlxdata, int x, int y, int z, int color, int width)
-{
-	t_vec3f pos = {(float)x + 1500.f, (float)y, (float)z};
-
-	t_vec3f a1 = {(float)-width + pos.x, (float)-width + pos.y, 0.f + pos.z};
-	t_vec3f a2 = {(float)width + pos.x, (float)-width + pos.y, 0.f + pos.z};
-	t_vec3f a3 = {(float)width + pos.x, (float)width + pos.y, 0.f + pos.z};
-	t_vec3f a4 = {(float)-width + pos.x, (float)width + pos.y, 0.f + pos.z};
-	ft_drawline(mlxdata, a1, a2, color);
-	ft_drawline(mlxdata, a2, a3, color);
-	ft_drawline(mlxdata, a3, a4, color);
-	ft_drawline(mlxdata, a4, a1, color);
-}
-
-int mousex = 0;
-int mousey = 0;
+static int mousex = 0;
+static int mousey = 0;
+static t_model	*model;
+static t_mat	*transform;
+static t_mat	*rotmat;
+static t_mat	*posmat;
+static t_mat	*scalemat;
+static t_vec	*position;
+static t_vec	*rotation;
+static t_vec	*scale;
 
 int	key_callback(int keycode, t_mlxdata *mlxdata)
 {
-	ft_printf("%d %c\n", keycode, ft_keyascii(keycode, 0));
+	(void)mlxdata;
 	if (keycode == K_ESC)
 		ft_exit("Esc pressed !", 0);
-	drawsqr(mlxdata, mousex, mousey, 0, 0xffffff, 100);
-	drawsqr(mlxdata, mousex, mousey, 1000, 0xff0000, 100);
+	else if (keycode == K_LEFTARW)
+		rotation->vector[2] += 1.f;
+	else if (keycode == K_RIGHTARW)
+		rotation->vector[2] -= 1.f;
+	if (keycode == K_LEFTARW || keycode == K_RIGHTARW)
+	{
+		rotmat = ft_mat_rotate(*rotation);
+		transform = ft_mat_mult(*posmat,
+				*ft_mat_mult(*rotmat, *scalemat, NULL), NULL);
+		ft_transform_model(model, transform);
+		mlx_clear_window(mlxdata->ptr, mlxdata->win);
+		ft_printmodel(mlxdata, model);
+	}
 	return (0);
 }
 
@@ -68,17 +76,17 @@ int	mouse_callback(int button, int x, int y, t_mlxdata *mlxdata)
 	old = b;
 	return (0);
 }
-#include <time.h>
-#include <math.h>
+
 int main(int argc, char **argv)
 {
-	t_model	*model;
 	t_mlxdata	mlxdata;
 
 	srand(time(NULL));
 	if (!(mlxdata.ptr = mlx_init()))
 		ft_exit("MLX failed to init", 1);
-	if (!(mlxdata.win = mlx_new_window(mlxdata.ptr, 1000, 1000, "fdf")))
+	int winwidth = 1000;
+	int winheight = 1000;
+	if (!(mlxdata.win = mlx_new_window(mlxdata.ptr, winwidth, winheight, "fdf")))
 		ft_exit("Failed to create the window", 1);
 	mlx_key_hook(mlxdata.win, key_callback, &mlxdata);
 	mlx_mouse_hook(mlxdata.win, mouse_callback, &mlxdata);
@@ -86,9 +94,19 @@ int main(int argc, char **argv)
 	{
 		if ((model = ft_getmodel(argv[1])))
 		{
-			t_vec *translate = ft_vec_newn(3, 1500.f, 10.f, 0.f);
-			t_vec *scale = ft_vec_newn(3, 50.f, 50.f, 3.f);
-			ft_transform_model(model, ft_mat_mult(*ft_mat_translate(*translate), *ft_mat_scale(*scale), NULL));
+			position = ft_vec_newn(3, 1000.f, 0.f, 50.f);
+			scale = ft_vec_newn(3, 50.f, 50.f, -20.f);
+			rotation = ft_vec_newn(3, 0.f, 0.f, 45.f);
+			posmat = ft_mat_translate(*position);
+			rotmat = ft_mat_rotate(*rotation);
+			scalemat = ft_mat_scale(*scale);
+			transform = ft_mat_mult(*posmat,
+					*ft_mat_mult(*rotmat, *scalemat, NULL), transform);
+		/*	ft_transform_model(model, ft_mat_translate(*translate));
+			ft_transform_model(model, ft_mat_rotate(*rotation));
+			ft_transform_model(model, ft_mat_scale(*scale));*/
+			ft_transform_model(model, transform);
+
 			ft_printmodel(&mlxdata, model);
 		}
 		else
