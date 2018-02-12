@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 19:10:31 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/12 16:37:54 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/12 19:02:38 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,32 @@
 #include "ft_printf.h"
 #include "mlx.h"
 
+static float	g_zoom = 1.f;
+
+float	ft_zoom_get(void)
+{
+	return (g_zoom);
+}
+
+void	ft_zoom_set(float zoom)
+{
+	g_zoom = zoom;
+}
+
 static t_vec3f	ft_3dto2d(t_vec3f vec)
 {
 	static float	cte = 0.5f;
 	t_vec3f			res;
 
 /*	res.x = cte * vec.x - cte * vec.y;
-	res.y = vec.z + (cte / 2.0f) * vec.x + (cte / 2.0f) * vec.y;*/
-	res.x = vec.x + cte * vec.z;
-	res.y = vec.y + (cte / 2.f) * vec.z;
+	res.y = vec.z + (cte / 2.0f) * vec.x + (cte / 2.0f) * vec.y;
+*/	res.x = (vec.x * g_zoom) + cte * (vec.z * g_zoom);
+	res.y = (vec.y * g_zoom) + (cte / 2.f) * (vec.z * g_zoom);
 	res.z = -vec.z;
 	return (res);
 }
 
-void			ft_drawline(t_mlxdata *mlxdata, t_vec3f a, t_vec3f b, int color)
+void			ft_drawline(t_vec3f a, t_vec3f b, int color)
 {
 	t_vec3f	d;
 	t_vec3	s;
@@ -45,11 +57,14 @@ void			ft_drawline(t_mlxdata *mlxdata, t_vec3f a, t_vec3f b, int color)
 	while ((s.x == 1.f ? a.x < b.x : b.x < a.x)
 			|| (s.y == 1.f ? a.y < b.y : b.y < a.y))
 	{
-		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x, (int)a.y, color);
-		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x - 1, (int)a.y, color + 0x000000ff);
-		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x + 1, (int)a.y, color + 0x000000ff);
-		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x, (int)a.y - 1, color + 0x000000ff);
-		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x, (int)a.y + 1, color + 0x000000ff);
+		if (ft_buffer_get())
+		{
+			*ft_buffer_at((int)a.x, (int)a.y) = color;
+		/*	*ft_buffer_at((int)a.x - 1 + g_zoom, (int)a.y + g_zoom) = color;
+			*ft_buffer_at((int)a.x + 1 + g, (int)a.y) = color;
+			*ft_buffer_at((int)a.x, (int)a.y - 1) = color;
+			*ft_buffer_at((int)a.x, (int)a.y + 1) = color;*/
+		}
 		if ((perr.y = perr.x) > -d.x)
 		{
 			perr.x -= d.y;

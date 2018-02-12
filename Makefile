@@ -6,7 +6,7 @@
 #    By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/11 18:07:15 by mmerabet          #+#    #+#              #
-#    Updated: 2018/02/09 22:18:12 by mmerabet         ###   ########.fr        #
+#    Updated: 2018/02/12 18:35:48 by mmerabet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ MINILIBXD	=	minilibx
 MINILIBX	=	$(MINILIBXD)/libmlx.a
 
 _FDFS	=		main.c ft_keyascii.c ft_drawline.c ft_getmodel.c \
-				ft_transform_model.c \
+				ft_transform_model.c buffer.c \
 
 SRCD		=	srcs/
 ICLD		=	-Iincludes -I$(LIBFTD)/includes -I$(MINILIBXD)

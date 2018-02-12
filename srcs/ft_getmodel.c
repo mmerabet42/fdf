@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 18:50:24 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/12 15:30:57 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/12 18:53:23 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ static void	getheights(const t_list *words, t_point *points, size_t y)
 	{
 		if (words->content)
 		{
-			points[i].pos.x = i;
-			points[i].pos.y = y;
+			points[i].pos.x = (float)i;
+			points[i].pos.y = (float)y;
 			points[i].pos.z = ft_atod(words->content);
 			if ((f = ft_strstr(words->content, ",0x")))
 				points[i].color = ft_atoi_basec(f + 3, "0123456789abcdef");
 			else
 				points[i].color = 0xffffff;
-				points[i].color = rand() % 0xffffff;// (int)points[i].pos.z;
+		//		points[i].color = rand() % 0xffffff;// (int)points[i].pos.z;
 			++i;
 		}
 		words = words->next;
@@ -100,7 +100,7 @@ t_point			*ft_getpoint(t_model *model, size_t x, size_t y)
 	return (p);
 }
 
-void			ft_printmodel(t_mlxdata *mlxdata, t_model *model)
+void			ft_printmodel(t_model *model)
 {
 	size_t	x;
 	size_t	y;
@@ -115,11 +115,11 @@ void			ft_printmodel(t_mlxdata *mlxdata, t_model *model)
 		{
 			pa = ft_getpoint(model, x, y);
 			if (x + 1 < model->width && (pb = ft_getpoint(model, x + 1, y)))
-				ft_drawline(mlxdata, ft_getpoint(model, x, y)->transpos,
+				ft_drawline(ft_getpoint(model, x, y)->transpos,
 						pb->transpos, pa->color);
 			if (y + 1 < model->height && (pb = ft_getpoint(model, x, y + 1)))
 			{
-				ft_drawline(mlxdata, ft_getpoint(model, x, y)->transpos,
+				ft_drawline(ft_getpoint(model, x, y)->transpos,
 						pb->transpos, pa->color);
 			}
 			++x;

@@ -97,9 +97,12 @@ void    mlx_put_image_to_window(mlx_ptr_t *mlx_ptr, mlx_win_list_t *win_ptr, mlx
 
 char    *mlx_get_data_addr(mlx_img_list_t *img_ptr, int *bits_per_pixel, int *size_line, int *endian)
 {
-  *bits_per_pixel = UNIQ_BPP*8;
-  *size_line = img_ptr->width*UNIQ_BPP;
-  *endian = 0; // little endian for now on mac-intel
+  if (bits_per_pixel)
+    *bits_per_pixel = UNIQ_BPP*8;
+  if (size_line)
+    *size_line = img_ptr->width*UNIQ_BPP;
+  if (endian)
+    *endian = 0; // little endian for now on mac-intel
   return (img_ptr->buffer);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/12 16:57:09 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/12 19:02:37 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	ft_exit(const char *msg, int code)
 	exit(code);
 }
 
-static int mousex = 0;
-static int mousey = 0;
+static int		mousex = 0;
+static int		mousey = 0;
 static t_model	*model;
 static t_mat	*transform;
 static t_mat	*rotmat;
@@ -51,17 +51,19 @@ int	key_callback(int keycode, t_mlxdata *mlxdata)
 	else if (keycode == K_PAD8)
 		rotation->vector[0] -= 1.f;
 	else if (keycode == K_PLUS)
-		ft_vec_addi(*scale, 1.f, scale);
+		//ft_vec_addi(*scale, 1.f, scale);
+		ft_zoom_set(ft_zoom_get() + 0.1f);
 	else if (keycode == K_DASH)
-		ft_vec_subi(*scale, 1.f, scale);
+	//	ft_vec_subi(*scale, 1.f, scale);
+		ft_zoom_set(ft_zoom_get() - 0.1f);
 	else if (keycode == K_LEFTARW)
-		position->vector[0] -= 10.f;
+		position->vector[0] += 10.f * ft_zoom_get();
 	else if (keycode == K_RIGHTARW)
-		position->vector[0] += 10.f;
+		position->vector[0] -= 10.f;
 	else if (keycode == K_UPARW)
-		position->vector[1] -= 10.f;
-	else if (keycode == K_DOWNARW)
 		position->vector[1] += 10.f;
+	else if (keycode == K_DOWNARW)
+		position->vector[1] -= 10.f;
 	if (keycode == K_PAD4 || keycode == K_PAD6 || keycode == K_PAD8 || keycode == K_PAD2
 			|| keycode == K_PLUS || keycode == K_DASH
 			|| keycode == K_LEFTARW || keycode == K_RIGHTARW
@@ -77,8 +79,9 @@ int	key_callback(int keycode, t_mlxdata *mlxdata)
 		transform = ft_mat_mult(*posmat,
 				*ft_mat_mult(*rotmat, *scalemat, transform), transform);
 		ft_transform_model(model, transform);
-		mlx_clear_window(mlxdata->ptr, mlxdata->win);
-		ft_printmodel(mlxdata, model);
+		ft_buffer_clear();
+		ft_printmodel(model);
+		ft_buffer_put(mlxdata, 0, 0);
 	}
 	return (0);
 }
@@ -91,13 +94,14 @@ int	mouse_callback(int button, int x, int y, t_mlxdata *mlxdata)
 	if (y < 0)
 		return (0);
 	(void)button;
+	(void)mlxdata;
 	mousex = x;
 	mousey = y;
 	b.x = (float)x;
 	b.y = (float)y;
 	b.z = 1.f;
 	if ((int)old.x != 0 && (int)old.y != 0)
-		ft_drawline(mlxdata, old, b, rand() % 0xffffff);
+		ft_drawline(old, b, rand() % 0xffffff);
 	old = b;
 	return (0);
 }
@@ -117,6 +121,7 @@ int main(int argc, char **argv)
 	mlx_mouse_hook(mlxdata.win, mouse_callback, &mlxdata);
 	if (argc >= 2)
 	{
+		ft_buffer_new(&mlxdata, winwidth, winheight);
 		if ((model = ft_getmodel(argv[1])))
 		{
 			position = ft_vec_newn(3, 0.f, 0.f, 50.f);
@@ -128,8 +133,8 @@ int main(int argc, char **argv)
 			transform = ft_mat_mult(*posmat,
 					*ft_mat_mult(*rotmat, *scalemat, NULL), transform);
 			ft_transform_model(model, transform);
-
-			ft_printmodel(&mlxdata, model);
+			ft_printmodel(model);
+			ft_buffer_put(&mlxdata, 0, 0);
 		}
 		else
 			ft_printf("Failed to create model\n");

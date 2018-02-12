@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:36:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/12 16:57:19 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/12 19:02:39 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,12 +160,21 @@ typedef struct	s_model
 
 t_model	*ft_getmodel(const char *file_name);
 t_point	*ft_getpoint(t_model *model, size_t x, size_t y);
-void	ft_printmodel(t_mlxdata *mlxdata, t_model *model);
+void	ft_printmodel(t_model *model);
+
+float	ft_zoom_get(void);
+void	ft_zoom_set(float zoom);
+
+void	ft_buffer_new(t_mlxdata *mlxdata, int width, int height);
+int		*ft_buffer_get(void);
+int		*ft_buffer_at(int x, int y);
+void	ft_buffer_clear(void);
+void	ft_buffer_put(t_mlxdata *mlxdata, int x, int y);
 
 void	ft_transform_model(t_model *model, t_mat *transform);
 
 char	ft_keyascii(int keycode, int maj);
 
-void	ft_drawline(t_mlxdata *mlxdata, t_vec3f a, t_vec3f b, int color);
+void	ft_drawline(t_vec3f a, t_vec3f b, int color);
 
 #endif
