@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 19:10:31 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/11 22:08:56 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/12 16:37:54 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ static t_vec3f	ft_3dto2d(t_vec3f vec)
 	static float	cte = 0.5f;
 	t_vec3f			res;
 
-	res.x = cte * vec.x - cte * vec.y;
-	res.y = vec.z + (cte / 2.0f) * vec.x + (cte / 2.0f) * vec.y;
-/*	res.x = vec.x + cte * vec.z;
+/*	res.x = cte * vec.x - cte * vec.y;
+	res.y = vec.z + (cte / 2.0f) * vec.x + (cte / 2.0f) * vec.y;*/
+	res.x = vec.x + cte * vec.z;
 	res.y = vec.y + (cte / 2.f) * vec.z;
-*/	res.z = vec.z;
+	res.z = -vec.z;
 	return (res);
 }
 
@@ -46,19 +46,19 @@ void			ft_drawline(t_mlxdata *mlxdata, t_vec3f a, t_vec3f b, int color)
 			|| (s.y == 1.f ? a.y < b.y : b.y < a.y))
 	{
 		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x, (int)a.y, color);
-		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x - 1, (int)a.y, color);
-		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x + 1, (int)a.y, color);
-		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x, (int)a.y - 1, color);
-		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x, (int)a.y + 1, color);
+		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x - 1, (int)a.y, color + 0x000000ff);
+		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x + 1, (int)a.y, color + 0x000000ff);
+		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x, (int)a.y - 1, color + 0x000000ff);
+		mlx_pixel_put(mlxdata->ptr, mlxdata->win, (int)a.x, (int)a.y + 1, color + 0x000000ff);
 		if ((perr.y = perr.x) > -d.x)
 		{
 			perr.x -= d.y;
-			a.x += s.x;
+			a.x += (float)s.x;
 		}
 		if (perr.y < d.y)
 		{
 			perr.x += d.x;
-			a.y += s.y;
+			a.y += (float)s.y;
 		}
 	}
 }

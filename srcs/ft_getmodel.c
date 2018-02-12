@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 18:50:24 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/11 22:03:54 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/12 15:30:57 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,12 @@ t_model			*ft_getmodel(const char *file_name)
 
 t_point			*ft_getpoint(t_model *model, size_t x, size_t y)
 {
+	t_point	*p;
+
 	if (!model || !model->points)
 		return (NULL);
-	return (model->points + (x + model->width * y));
+	p = (model->points + (x + model->width * y));
+	return (p);
 }
 
 void			ft_printmodel(t_mlxdata *mlxdata, t_model *model)
@@ -112,12 +115,12 @@ void			ft_printmodel(t_mlxdata *mlxdata, t_model *model)
 		{
 			pa = ft_getpoint(model, x, y);
 			if (x + 1 < model->width && (pb = ft_getpoint(model, x + 1, y)))
-				ft_drawline(mlxdata, ft_getpoint(model, x, y)->pos,
-						pb->pos, pa->color);
+				ft_drawline(mlxdata, ft_getpoint(model, x, y)->transpos,
+						pb->transpos, pa->color);
 			if (y + 1 < model->height && (pb = ft_getpoint(model, x, y + 1)))
 			{
-				ft_drawline(mlxdata, ft_getpoint(model, x, y)->pos,
-						pb->pos, pa->color);
+				ft_drawline(mlxdata, ft_getpoint(model, x, y)->transpos,
+						pb->transpos, pa->color);
 			}
 			++x;
 		}

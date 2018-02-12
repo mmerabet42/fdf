@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:36:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/11 22:09:00 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/12 16:57:19 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,12 +147,12 @@ typedef struct	s_keypair
 typedef struct	s_point
 {
 	t_vec3f		pos;
+	t_vec3f		transpos;
 	int			color;
 }				t_point;
 
 typedef struct	s_model
 {
-	t_point		*orpoints;
 	t_point		*points;
 	size_t		width;
 	size_t		height;
@@ -163,7 +163,6 @@ t_point	*ft_getpoint(t_model *model, size_t x, size_t y);
 void	ft_printmodel(t_mlxdata *mlxdata, t_model *model);
 
 void	ft_transform_model(t_model *model, t_mat *transform);
-
 
 char	ft_keyascii(int keycode, int maj);
 

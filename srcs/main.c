@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/11 22:08:57 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/12 16:57:09 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,40 @@ int	key_callback(int keycode, t_mlxdata *mlxdata)
 	(void)mlxdata;
 	if (keycode == K_ESC)
 		ft_exit("Esc pressed !", 0);
+	else if (keycode == K_PAD4)
+		rotation->vector[1] += 1.f;
+	else if (keycode == K_PAD6)
+		rotation->vector[1] -= 1.f;
+	else if (keycode == K_PAD2)
+		rotation->vector[0] += 1.f;
+	else if (keycode == K_PAD8)
+		rotation->vector[0] -= 1.f;
+	else if (keycode == K_PLUS)
+		ft_vec_addi(*scale, 1.f, scale);
+	else if (keycode == K_DASH)
+		ft_vec_subi(*scale, 1.f, scale);
 	else if (keycode == K_LEFTARW)
-		rotation->vector[2] += 1.f;
+		position->vector[0] -= 10.f;
 	else if (keycode == K_RIGHTARW)
-		rotation->vector[2] -= 1.f;
-	if (keycode == K_LEFTARW || keycode == K_RIGHTARW)
+		position->vector[0] += 10.f;
+	else if (keycode == K_UPARW)
+		position->vector[1] -= 10.f;
+	else if (keycode == K_DOWNARW)
+		position->vector[1] += 10.f;
+	if (keycode == K_PAD4 || keycode == K_PAD6 || keycode == K_PAD8 || keycode == K_PAD2
+			|| keycode == K_PLUS || keycode == K_DASH
+			|| keycode == K_LEFTARW || keycode == K_RIGHTARW
+			|| keycode == K_UPARW || keycode == K_DOWNARW)
 	{
-		rotmat = ft_mat_rotate(*rotation);
+		if (keycode == K_PAD4 || keycode == K_PAD6 || keycode == K_PAD8 || keycode == K_PAD2)
+			rotmat = ft_mat_rotate(*rotation);
+		else if (keycode == K_PLUS || keycode == K_DASH)
+			scalemat = ft_mat_scale(*scale);
+		else if (keycode == K_LEFTARW || keycode == K_RIGHTARW
+				|| keycode == K_UPARW || keycode == K_DOWNARW)
+			posmat = ft_mat_translate(*position);
 		transform = ft_mat_mult(*posmat,
-				*ft_mat_mult(*rotmat, *scalemat, NULL), NULL);
+				*ft_mat_mult(*rotmat, *scalemat, transform), transform);
 		ft_transform_model(model, transform);
 		mlx_clear_window(mlxdata->ptr, mlxdata->win);
 		ft_printmodel(mlxdata, model);
@@ -88,23 +113,20 @@ int main(int argc, char **argv)
 	int winheight = 1000;
 	if (!(mlxdata.win = mlx_new_window(mlxdata.ptr, winwidth, winheight, "fdf")))
 		ft_exit("Failed to create the window", 1);
-	mlx_key_hook(mlxdata.win, key_callback, &mlxdata);
+	mlx_hook(mlxdata.win, 2, 1L << 0, key_callback, &mlxdata);
 	mlx_mouse_hook(mlxdata.win, mouse_callback, &mlxdata);
 	if (argc >= 2)
 	{
 		if ((model = ft_getmodel(argv[1])))
 		{
-			position = ft_vec_newn(3, 1000.f, 0.f, 50.f);
-			scale = ft_vec_newn(3, 50.f, 50.f, -20.f);
-			rotation = ft_vec_newn(3, 0.f, 0.f, 45.f);
+			position = ft_vec_newn(3, 0.f, 0.f, 50.f);
+			scale = ft_vec_newn(3, 50.f, 50.f, 3.f);
+			rotation = ft_vec_newn(3, 0.f, 0.f, 0.f);
 			posmat = ft_mat_translate(*position);
 			rotmat = ft_mat_rotate(*rotation);
 			scalemat = ft_mat_scale(*scale);
 			transform = ft_mat_mult(*posmat,
 					*ft_mat_mult(*rotmat, *scalemat, NULL), transform);
-		/*	ft_transform_model(model, ft_mat_translate(*translate));
-			ft_transform_model(model, ft_mat_rotate(*rotation));
-			ft_transform_model(model, ft_mat_scale(*scale));*/
 			ft_transform_model(model, transform);
 
 			ft_printmodel(&mlxdata, model);

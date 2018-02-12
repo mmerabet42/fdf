@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/09 21:51:41 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/11 21:07:29 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/12 15:34:31 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	ft_transform_model(t_model *model, t_mat *transform)
 			vec.vector[1] = p->pos.y;
 			vec.vector[2] = p->pos.z;
 			res = ft_mat_multv(*transform, vec, NULL);
-			p->pos.x = res->vector[0] / res->vector[3];
-			p->pos.y = res->vector[1] / res->vector[3];
-			p->pos.z = res->vector[2] / res->vector[3];
+			p->transpos.x = res->vector[0];
+			p->transpos.y = res->vector[1];
+			p->transpos.z = res->vector[2];
 			++i.y;
 		}
 		++i.x;
