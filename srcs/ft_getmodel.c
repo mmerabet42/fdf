@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 18:50:24 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/12 18:53:23 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/13 11:37:31 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	getheights(const t_list *words, t_point *points, size_t y)
 				points[i].color = ft_atoi_basec(f + 3, "0123456789abcdef");
 			else
 				points[i].color = 0xffffff;
-		//		points[i].color = rand() % 0xffffff;// (int)points[i].pos.z;
+				points[i].color = rand() % 0xffffff;// (int)points[i].pos.z;
 			++i;
 		}
 		words = words->next;

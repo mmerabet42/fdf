@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/12 19:02:37 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/13 12:15:28 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_exit(const char *msg, int code)
 static int		mousex = 0;
 static int		mousey = 0;
 static t_model	*model;
+static t_mat	*projection;
 static t_mat	*transform;
 static t_mat	*rotmat;
 static t_mat	*posmat;
@@ -69,6 +70,7 @@ int	key_callback(int keycode, t_mlxdata *mlxdata)
 			|| keycode == K_LEFTARW || keycode == K_RIGHTARW
 			|| keycode == K_UPARW || keycode == K_DOWNARW)
 	{
+		ft_printf("%f\n", ft_zoom_get());
 		if (keycode == K_PAD4 || keycode == K_PAD6 || keycode == K_PAD8 || keycode == K_PAD2)
 			rotmat = ft_mat_rotate(*rotation);
 		else if (keycode == K_PLUS || keycode == K_DASH)
@@ -76,8 +78,8 @@ int	key_callback(int keycode, t_mlxdata *mlxdata)
 		else if (keycode == K_LEFTARW || keycode == K_RIGHTARW
 				|| keycode == K_UPARW || keycode == K_DOWNARW)
 			posmat = ft_mat_translate(*position);
-		transform = ft_mat_mult(*posmat,
-				*ft_mat_mult(*rotmat, *scalemat, transform), transform);
+			transform = ft_mat_mult(*projection, *ft_mat_mult(*posmat,
+					*ft_mat_mult(*rotmat, *scalemat, transform), transform), transform);
 		ft_transform_model(model, transform);
 		ft_buffer_clear();
 		ft_printmodel(model);
@@ -122,16 +124,17 @@ int main(int argc, char **argv)
 	if (argc >= 2)
 	{
 		ft_buffer_new(&mlxdata, winwidth, winheight);
+		projection = ft_mat_projection(1.f, (float)winwidth / (float)winheight, 1.f, 100.f);
 		if ((model = ft_getmodel(argv[1])))
 		{
-			position = ft_vec_newn(3, 0.f, 0.f, 50.f);
-			scale = ft_vec_newn(3, 50.f, 50.f, 3.f);
-			rotation = ft_vec_newn(3, 0.f, 0.f, 0.f);
+			position = ft_vec_newn(3,400.f, 500.f, 0.f);
+			scale = ft_vec_newn(3, 50.f, 50.f, -ft_atod(argv[2]));
+			rotation = ft_vec_newn(3, -45.f, 0.f, 0.f);
 			posmat = ft_mat_translate(*position);
 			rotmat = ft_mat_rotate(*rotation);
 			scalemat = ft_mat_scale(*scale);
-			transform = ft_mat_mult(*posmat,
-					*ft_mat_mult(*rotmat, *scalemat, NULL), transform);
+			transform = ft_mat_mult(*projection, *ft_mat_mult(*posmat,
+					*ft_mat_mult(*rotmat, *scalemat, NULL), NULL), NULL);
 			ft_transform_model(model, transform);
 			ft_printmodel(model);
 			ft_buffer_put(&mlxdata, 0, 0);
