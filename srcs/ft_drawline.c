@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 19:10:31 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/13 15:53:19 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/13 22:02:56 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ static t_vec3f	ft_3dto2d(t_vec3f vec)
 
 /*	res.x = cte * vec.x - cte * vec.y;
 	res.y = vec.z + (cte / 2.0f) * vec.x + (cte / 2.0f) * vec.y;
-*/	res.x = (vec.x * (vec.z / 10.f * 5.f)) + cte * vec.z;
-	res.y = (vec.y * (vec.z / 10.f * 5.f)) + (cte / 2.f) * vec.z;
+*/	res.x = (vec.x * g_zoom) + cte * vec.z;
+	res.y = (vec.y * g_zoom) + (cte / 2.f) * vec.z;
 	res.z = -vec.z;
 	return (res);
 }
@@ -45,36 +45,36 @@ static t_vec3f	ft_3dto2d(t_vec3f vec)
 void			ft_drawline(t_vec3f a, t_vec3f b, int color)
 {
 	t_vec3f	d;
-	t_vec3f	s;
+	t_vec3	s;
 	t_vec3f	perr;
 
 	a = ft_3dto2d(a);
 	b = ft_3dto2d(b);
 	d.x = ft_fabs(b.x - a.x);
 	d.y = ft_fabs(b.y - a.y);
-	s.x = (a.x < b.x ? 1.f : -1.f);
-	s.y = (a.y < b.y ? 1.f: -1.f);
-	perr.x = (d.x > d.y ? d.x : -d.y) / 2.f;
+	s.x = (a.x < b.x ? 1 : -1);
+	s.y = (a.y < b.y ? 1: -1);
+	perr.x = (d.x > d.y ? d.x : -d.y) / 2;
 	while ((s.x == 1 ? a.x < b.x : b.x < a.x)
 			|| (s.y == 1 ? a.y < b.y : b.y < a.y))
 	{
 		if (ft_buffer_get())
 		{
 			*ft_buffer_at((int)a.x, (int)a.y) = color;
-		/*	*ft_buffer_at((int)a.x - 1 + g_zoom, (int)a.y + g_zoom) = color;
-			*ft_buffer_at((int)a.x + 1 + g, (int)a.y) = color;
+		/*	*ft_buffer_at((int)a.x - 1, (int)a.y + g_zoom) = color;
+			*ft_buffer_at((int)a.x + 1, (int)a.y) = color;
 			*ft_buffer_at((int)a.x, (int)a.y - 1) = color;
 			*ft_buffer_at((int)a.x, (int)a.y + 1) = color;*/
 		}
 		if ((perr.y = perr.x) > -d.x)
 		{
 			perr.x -= d.y;
-			a.x += s.x;
+			a.x += (float)s.x;
 		}
 		if (perr.y < d.y)
 		{
 			perr.x += d.x;
-			a.y += s.y;
+			a.y += (float)s.y;
 		}
 	}
 }
