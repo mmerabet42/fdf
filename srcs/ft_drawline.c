@@ -6,14 +6,14 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 19:10:31 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/13 12:08:17 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/13 15:53:19 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "ft_matrix.h"
 #include <math.h> 
-#include "ft_printf.h"
+#include <stdio.h>
 #include "mlx.h"
 
 static float	g_zoom = 1.f;
@@ -45,18 +45,18 @@ static t_vec3f	ft_3dto2d(t_vec3f vec)
 void			ft_drawline(t_vec3f a, t_vec3f b, int color)
 {
 	t_vec3f	d;
-	t_vec3	s;
-	t_vec2	perr;
+	t_vec3f	s;
+	t_vec3f	perr;
 
 	a = ft_3dto2d(a);
 	b = ft_3dto2d(b);
 	d.x = ft_fabs(b.x - a.x);
 	d.y = ft_fabs(b.y - a.y);
 	s.x = (a.x < b.x ? 1.f : -1.f);
-	s.y = (a.y < b.y ? 1.f : -1.f);
+	s.y = (a.y < b.y ? 1.f: -1.f);
 	perr.x = (d.x > d.y ? d.x : -d.y) / 2.f;
-	while ((s.x == 1.f ? a.x < b.x : b.x < a.x)
-			|| (s.y == 1.f ? a.y < b.y : b.y < a.y))
+	while ((s.x == 1 ? a.x < b.x : b.x < a.x)
+			|| (s.y == 1 ? a.y < b.y : b.y < a.y))
 	{
 		if (ft_buffer_get())
 		{
@@ -69,12 +69,12 @@ void			ft_drawline(t_vec3f a, t_vec3f b, int color)
 		if ((perr.y = perr.x) > -d.x)
 		{
 			perr.x -= d.y;
-			a.x += (float)s.x;
+			a.x += s.x;
 		}
 		if (perr.y < d.y)
 		{
 			perr.x += d.x;
-			a.y += (float)s.y;
+			a.y += s.y;
 		}
 	}
 }

@@ -6,12 +6,13 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 18:03:25 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/12 18:44:28 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/13 15:56:35 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "mlx.h"
+#include "ft_printf.h"
 
 static int	*g_buffer;
 static void	*imgptr;
@@ -35,15 +36,6 @@ int			*ft_buffer_at(int x, int y)
 		x = 0;
 	if (y < 0 || y >= g_height)
 		y = 0;
-	/*
-	while (x < 0)
-		x += g_width;
-	while (x >= g_width)
-		x -= g_width;
-	while (y < 0)
-		y += g_height;
-	while (y >= g_height)
-		y -= g_height;*/
 	return (g_buffer + (x + g_width * y));
 }
 

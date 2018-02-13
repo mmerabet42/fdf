@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/13 12:15:28 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/13 15:58:11 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ int	key_callback(int keycode, t_mlxdata *mlxdata)
 	//	ft_vec_subi(*scale, 1.f, scale);
 		ft_zoom_set(ft_zoom_get() - 0.1f);
 	else if (keycode == K_LEFTARW)
-		position->vector[0] += 10.f * ft_zoom_get();
+		position->vector[0] += 0.1f;
 	else if (keycode == K_RIGHTARW)
-		position->vector[0] -= 10.f;
+		position->vector[0] -= 0.1f;
 	else if (keycode == K_UPARW)
-		position->vector[1] += 10.f;
+		position->vector[1] += 0.1f;
 	else if (keycode == K_DOWNARW)
-		position->vector[1] -= 10.f;
+		position->vector[1] -= 0.1f;
 	if (keycode == K_PAD4 || keycode == K_PAD6 || keycode == K_PAD8 || keycode == K_PAD2
 			|| keycode == K_PLUS || keycode == K_DASH
 			|| keycode == K_LEFTARW || keycode == K_RIGHTARW
@@ -124,11 +124,11 @@ int main(int argc, char **argv)
 	if (argc >= 2)
 	{
 		ft_buffer_new(&mlxdata, winwidth, winheight);
-		projection = ft_mat_projection(1.f, (float)winwidth / (float)winheight, 1.f, 100.f);
+		projection = ft_mat_projection(0.1f, (float)winwidth / (float)winheight, 0.f, 100.f);
 		if ((model = ft_getmodel(argv[1])))
 		{
-			position = ft_vec_newn(3,400.f, 500.f, 0.f);
-			scale = ft_vec_newn(3, 50.f, 50.f, -ft_atod(argv[2]));
+			position = ft_vec_newn(3, 0.f, 0.f, 0.f);
+			scale = ft_vec_newn(3, 1.f, 1.f, -ft_atod(argv[2]));
 			rotation = ft_vec_newn(3, -45.f, 0.f, 0.f);
 			posmat = ft_mat_translate(*position);
 			rotmat = ft_mat_rotate(*rotation);
