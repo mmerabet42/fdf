@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/13 22:43:13 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/02/15 22:30:55 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int		mousex = 0;
 static int		mousey = 0;
 static t_model	*model;
 static t_mat	*projection;
+static t_mat	*view;
 static t_mat	*transform;
 static t_mat	*rotmat;
 static t_mat	*posmat;
@@ -58,13 +59,13 @@ int	key_callback(int keycode, t_mlxdata *mlxdata)
 	//	ft_vec_subi(*scale, 1.f, scale);
 		ft_zoom_set(ft_zoom_get() - 0.1f);
 	else if (keycode == K_LEFTARW)
-		position->vector[0] += 10.f;
-	else if (keycode == K_RIGHTARW)
 		position->vector[0] -= 10.f;
+	else if (keycode == K_RIGHTARW)
+		position->vector[0] += 10.f;
 	else if (keycode == K_UPARW)
-		position->vector[1] += 10.f;
-	else if (keycode == K_DOWNARW)
 		position->vector[1] -= 10.f;
+	else if (keycode == K_DOWNARW)
+		position->vector[1] += 10.f;
 	if (keycode == K_PAD4 || keycode == K_PAD6 || keycode == K_PAD8 || keycode == K_PAD2
 			|| keycode == K_PLUS || keycode == K_DASH
 			|| keycode == K_LEFTARW || keycode == K_RIGHTARW
@@ -78,8 +79,9 @@ int	key_callback(int keycode, t_mlxdata *mlxdata)
 		else if (keycode == K_LEFTARW || keycode == K_RIGHTARW
 				|| keycode == K_UPARW || keycode == K_DOWNARW)
 			posmat = ft_mat_translate(*position);
-		transform = ft_mat_mult(*projection, *ft_mat_mult(*posmat,
-				*ft_mat_mult(*rotmat, *scalemat, transform), transform), transform);
+	/*	transform = ft_mat_mult(*ft_mat_mult(*projection, *view, NULL), *ft_mat_mult(*posmat,
+				*ft_mat_mult(*rotmat, *scalemat, transform), transform), transform);*/
+		transform = ft_mat_mult(*posmat, *ft_mat_mult(*rotmat, *scalemat, NULL), NULL);
 		ft_buffer_clear();
 		ft_transform_model(model, transform);
 		ft_printmodel(model);
@@ -107,7 +109,18 @@ int	mouse_callback(int button, int x, int y, t_mlxdata *mlxdata)
 	old = b;
 	return (0);
 }
-
+/*
+void	ft_hexcolorl(int color, unsigned char rgb[3])
+{
+	rgb[0] = (color & 0xff0000) >> (8 * 2);
+	rgb[1] = (color & 0xff00) >> (8);
+	rgb[2] = color & 0xff;
+}
+*/
+#include <stdio.h>
+#include <limits.h>
+#include "ft_mem.h"
+#include "ft_str.h"
 int main(int argc, char **argv)
 {
 	t_mlxdata	mlxdata;
@@ -124,17 +137,19 @@ int main(int argc, char **argv)
 	if (argc >= 2)
 	{
 		ft_buffer_new(&mlxdata, winwidth, winheight);
-		projection = ft_mat_projection(0.001f, (float)winwidth / (float)winheight, 0.1f, 100.f);
+		projection = ft_mat_perspective(10.f, (float)winwidth / (float)winheight, 0.1f, 100.f);
+		view = ft_mat_lookat(*ft_vec_newn(3, 0.f, 0.f, 1.f),
+				*ft_vec_newn(3, 0.f, 0.f, 0.f), *ft_vec_newn(3, 0.f, 0.f, 1.f));
 		if ((model = ft_getmodel(argv[1])))
 		{
 			position = ft_vec_newn(3, 0.f, 0.f, 0.f);
-			scale = ft_vec_newn(3, 1.f, 1.f, 1.f);
+			scale = ft_vec_newn(3, 1.f, 1.f, -0.1f);
 			rotation = ft_vec_newn(3, 0.f, 0.f, 0.f);
 			posmat = ft_mat_translate(*position);
 			rotmat = ft_mat_rotate(*rotation);
 			scalemat = ft_mat_scale(*scale);
-			transform = ft_mat_mult(*projection, *ft_mat_mult(*posmat,
-					*ft_mat_mult(*rotmat, *scalemat, NULL), NULL), NULL);
+			transform = ft_mat_mult(*posmat,
+					*ft_mat_mult(*rotmat, *scalemat, NULL), NULL);
 			ft_transform_model(model, transform);
 			ft_printmodel(model);
 			ft_buffer_put(&mlxdata, 0, 0);

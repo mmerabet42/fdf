@@ -6,13 +6,13 @@
 #    By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/11 18:07:15 by mmerabet          #+#    #+#              #
-#    Updated: 2018/02/12 18:35:48 by mmerabet         ###   ########.fr        #
+#    Updated: 2018/02/15 21:27:14 by mmerabet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	fdf
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra
+CFLAGS		=	#-Wall -Werror -Wextra
 
 LIBFTD		=	libft
 LIBFT		=	$(LIBFTD)/libft.a
