@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 15:26:45 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/15 22:30:55 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/04/18 19:52:12 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	ft_exit(const char *msg, int code)
 static int		mousex = 0;
 static int		mousey = 0;
 static t_model	*model;
-static t_mat	*projection;
-static t_mat	*view;
-static t_mat	*transform;
+//static t_mat	*projection;
+//static t_mat	*view;
+//static t_mat	*transform;
 static t_mat	*rotmat;
 static t_mat	*posmat;
 static t_mat	*scalemat;
@@ -79,11 +79,11 @@ int	key_callback(int keycode, t_mlxdata *mlxdata)
 		else if (keycode == K_LEFTARW || keycode == K_RIGHTARW
 				|| keycode == K_UPARW || keycode == K_DOWNARW)
 			posmat = ft_mat_translate(*position);
-	/*	transform = ft_mat_mult(*ft_mat_mult(*projection, *view, NULL), *ft_mat_mult(*posmat,
-				*ft_mat_mult(*rotmat, *scalemat, transform), transform), transform);*/
-		transform = ft_mat_mult(*posmat, *ft_mat_mult(*rotmat, *scalemat, NULL), NULL);
+	//	transform = ft_mat_mult(*ft_mat_mult(*projection, *view, transform), *ft_mat_mult(*posmat,
+	//			*ft_mat_mult(*rotmat, *scalemat, transform), transform), transform);
+	//	transform = ft_mat_mult(*posmat, *ft_mat_mult(*rotmat, *scalemat, transform), transform);
 		ft_buffer_clear();
-		ft_transform_model(model, transform);
+	//	ft_transform_model(model, transform);
 		ft_printmodel(model);
 		ft_buffer_put(mlxdata, 0, 0);
 	}
@@ -107,6 +107,7 @@ int	mouse_callback(int button, int x, int y, t_mlxdata *mlxdata)
 	if ((int)old.x != 0 && (int)old.y != 0)
 		ft_drawline(old, b, rand() % 0xffffff);
 	old = b;
+	ft_buffer_put(mlxdata, 0, 0);
 	return (0);
 }
 /*
@@ -137,20 +138,39 @@ int main(int argc, char **argv)
 	if (argc >= 2)
 	{
 		ft_buffer_new(&mlxdata, winwidth, winheight);
-		projection = ft_mat_perspective(10.f, (float)winwidth / (float)winheight, 0.1f, 100.f);
-		view = ft_mat_lookat(*ft_vec_newn(3, 0.f, 0.f, 1.f),
-				*ft_vec_newn(3, 0.f, 0.f, 0.f), *ft_vec_newn(3, 0.f, 0.f, 1.f));
+	//	projection = ft_mat_perspective(10.f, (float)winwidth / (float)winheight, 0.1f, 100.f);
+	//	view = ft_mat_lookat(*ft_vec_newn(3, 0.f, 0.f, 1.f),
+	//			*ft_vec_newn(3, 0.f, 0.f, 0.f), *ft_vec_newn(3, 0.f, 0.f, 1.f));
+	//	transform = ft_mat_new(4, 4);
 		if ((model = ft_getmodel(argv[1])))
 		{
-			position = ft_vec_newn(3, 0.f, 0.f, 0.f);
-			scale = ft_vec_newn(3, 1.f, 1.f, -0.1f);
-			rotation = ft_vec_newn(3, 0.f, 0.f, 0.f);
-			posmat = ft_mat_translate(*position);
-			rotmat = ft_mat_rotate(*rotation);
-			scalemat = ft_mat_scale(*scale);
-			transform = ft_mat_mult(*posmat,
-					*ft_mat_mult(*rotmat, *scalemat, NULL), NULL);
-			ft_transform_model(model, transform);
+		/*	size_t	x = 0, y = 0;
+			t_point	*p;
+			unsigned char rgb[3];
+			while (y < model->height)
+			{
+				x = 0;
+				while (x < model->width)
+				{
+					p = ft_getpoint(model, x, y);
+					ft_hextorgb(p->color, rgb);
+					ft_printf("%l{%d;%d;%d}%3.0f ", rgb[0], rgb[1], rgb[2], p->pos.z);
+					++x;
+				}
+				ft_printf("\n");
+				++y;
+			}
+			return (0);*/
+		//	position = ft_vec_newn(3, 0.f, 0.f, 0.f);
+		//	scale = ft_vec_newn(3, 10.f, 10.f, -5.f);
+		//	rotation = ft_vec_newn(3, 0.f, 0.f, 0.f);
+		//	posmat = ft_mat_translate(*position);
+		//	rotmat = ft_mat_rotate(*rotation);
+		//	scalemat = ft_mat_scale(*scale);
+		//	transform = ft_mat_mult(*ft_mat_mult(*projection, *view, transform), *ft_mat_mult(*posmat,
+		//		*ft_mat_mult(*rotmat, *scalemat, transform), transform), transform);
+		//	transform = ft_mat_mult(*posmat, *ft_mat_mult(*rotmat, *scalemat, transform), transform);
+		//	ft_transform_model(model, transform);
 			ft_printmodel(model);
 			ft_buffer_put(&mlxdata, 0, 0);
 		}

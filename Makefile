@@ -6,13 +6,13 @@
 #    By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/11 18:07:15 by mmerabet          #+#    #+#              #
-#    Updated: 2018/02/15 21:27:14 by mmerabet         ###   ########.fr        #
+#    Updated: 2018/04/01 20:37:49 by mmerabet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	fdf
 CC			=	gcc
-CFLAGS		=	#-Wall -Werror -Wextra
+CFLAGS		=	-Wall -Werror -Wextra -g -fsanitize=address
 
 LIBFTD		=	libft
 LIBFT		=	$(LIBFTD)/libft.a
@@ -20,17 +20,17 @@ LIBFT		=	$(LIBFTD)/libft.a
 MINILIBXD	=	minilibx
 MINILIBX	=	$(MINILIBXD)/libmlx.a
 
-_FDFS	=		main.c ft_keyascii.c ft_drawline.c ft_getmodel.c \
+_NTS	=		main.c ft_keyascii.c ft_drawline.c ft_getmodel.c \
 				ft_transform_model.c buffer.c \
 
 SRCD		=	srcs/
-ICLD		=	-Iincludes -I$(LIBFTD)/includes -I$(MINILIBXD)
-FDFS		=	$(patsubst %,$(SRCD)/%,$(_FDFS))
-_FDFO		=	$(_FDFS:.c=.o)
-FDFO		=	$(FDFS:.c=.o)
+ICLD		=	-Iincludes -I$(LIBFTD)/includes
+NTS			=	$(patsubst %,$(SRCD)/%,$(_NTS))
+_NTO		=	$(_NTS:.c=.o)
+NTO			=	$(NTS:.c=.o)
 
-SRCS		=	$(FDFS)
-_OBJS		=	$(_FDFO)
+SRCS		=	$(NTS)
+_OBJS		=	$(_NTO)
 OBJD		=	objs/
 OBJS		=	$(addprefix $(SRCD),$(_OBJS))
 OBJB		=	$(addprefix $(OBJD),$(_OBJS))
@@ -38,43 +38,36 @@ OBJB		=	$(addprefix $(OBJD),$(_OBJS))
 FRAMEWORKS	=	-framework OpenGL -framework AppKit
 
 # COLORS
-_GREY=\x1b[30m
-_RED=\x1b[38;2;0;255;145m
-_GREEN=\x1b[32m
-_YELLOW=\x1b[33m
-_BLUE=\x1b[34m
-_PURPLE=\x1b[35m
-_CYAN=\x1b[36m
-_WHITE=\x1b[37m
-_END=\x1b[0m
-_SUCCESS=$(_RED)
+CRED=\033[91m
+CGREEN=\033[38;2;0;255;145m
+CEND=\033[0m
 
-all: $(NAME)
+all: lib $(NAME)
 
-$(NAME): includes/fdf.h $(LIBFT) $(MINILIBX) $(OBJB)
-	@echo "$(_RED)Compiling$(_END) $(NAME)$(_RED)...$(_END)"
-	@$(CC) $(CFLAGS) $(LIBFT) $(OBJB) $(MINILIBX) $(FRAMEWORKS) -o $(NAME)
-	@echo  "$(NAME) : $(_RED)done$(_END)"
+$(NAME): $(LIBFT) $(MINILIBX) $(OBJB)
+	@printf "\r\033[K$(CGREEN)Creating executable$(CEND): $(NAME)\n"
+	@$(CC) $(CFLAGS) $(OBJB) $(LIBFT) $(MINILIBX) $(FRAMEWORKS) -o $(NAME)
+	@echo  "$(NAME): $(CGREEN)done$(CEND)"
 
-$(LIBFT):
+lib:
 	@make -C $(LIBFTD)
 
 $(MINILIBX):
 	@make -C $(MINILIBXD)
 
-$(OBJD)%.o: $(SRCD)%.c
+$(OBJD)%.o: $(SRCD)%.c includes/fdf.h
+	@printf "\r\033[K$(CGREEN)Compiling$(CEND): $@"
 	@mkdir -p $(OBJD)
 	@$(CC) $(CFLAGS) -o $@ -c $< $(ICLD)
 
 clean:
 	@make -C $(LIBFTD) clean
-	@make -C $(MINILIBXD) clean
-	@echo "$(NAME) clean: $(_RED)done$(_END)"
-	@/bin/rm -f $(OBJB)
+	@echo "$(CRED)Cleaning$(CEND): $(NAME)"
+	@rm -f $(OBJB)
 
 fclean: clean
 	@make -C $(LIBFTD) fclean
-	@echo "$(NAME) fclean: $(_RED)done$(_END)"
+	@echo "$(CRED)Full cleaning$(CEND): $(NAME)"
 	@/bin/rm -f $(NAME)
 
 re:

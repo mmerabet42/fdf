@@ -6,7 +6,7 @@
 /*   By: mmerabet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 19:10:31 by mmerabet          #+#    #+#             */
-/*   Updated: 2018/02/15 22:30:51 by mmerabet         ###   ########.fr       */
+/*   Updated: 2018/04/18 19:51:13 by mmerabet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	ft_zoom_set(float zoom)
 
 static t_vec3f	ft_3dto2d(t_vec3f vec)
 {
-	static float	cte = 0.5f;
+//	return (vec);
+	static float	cte = 0.2f;
 	t_vec3f			res;
 
 /*	res.x = cte * vec.x - cte * vec.y;
